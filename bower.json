@@ -1,0 +1,31 @@
+{
+  "name": "ll-time-picker",
+  "version": "1.0.0",
+  "authors": [
+    "Charles Koehl <ckoehl@leisurelink.com>"
+  ],
+  "description": "A modal dialog that displays a time-picker when another element fires an event, and then calls a method in that other element with selected time data.",
+  "keywords": [
+    "time",
+    "leisurelink"
+  ],
+  "main": "ll-time-picker.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/LeisureLinkElements/ll-time-picker",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/demo/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "ll-theme": "LeisureLinkElements/ll-theme",
+    "lodash": "~3.10.1",
+    "paper-dialog": "PolymerElements/paper-dialog#~1.0.2",
+    "paper-time-picker": "master"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}

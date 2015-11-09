@@ -1,0 +1,76 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-time-picker/paper-time-picker.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../lodash/lodash.js">
+<!-- using shared styles in an element -->
+<link rel="import" href="../ll-theme/shared-styles.html">
+
+<!--
+Example:
+
+    <ll-time-picker></ll-time-picker>
+
+A modal dialog that displays a time-picker when another element fires an event, and then calls a method in that other element with selected time data.
+@demo
+-->
+
+<dom-module id="ll-time-picker">
+
+  <style include="shared-styles"></style>
+
+  <template>
+
+    <paper-dialog id="dialog" class="paper-time-picker-dialog" modal>
+      <paper-time-picker id="picker"></paper-time-picker>
+      <div class="buttons">
+        <paper-button dialog-dismiss>CANCEL</paper-button>
+        <paper-button dialog-confirm on-tap="_picked">OK</paper-button>
+      </div>
+    </paper-dialog>
+
+  </template>
+
+  <script>
+
+    LLTimePicker = Polymer({
+
+      is: 'll-time-picker',
+
+      properties: {
+
+        _client: Object
+
+      },
+
+      listeners: {
+        'll-time-picker-open': '_open'
+      },
+
+      _isValidClient: function(obj) {
+        return _.isFunction(this._client.timePicked);
+      },
+
+      _open: function (evt) {
+        this._client = evt.target;
+        if (this._hasValidClient()) {
+          this.$.dialog.open();
+        }
+      },
+
+      _picked: function (evt) {
+        if (this._hasValidClient()) {
+          var tp = this.$.picker;
+          var data = {
+            display: tp.time,
+            iso: _.padLeft(tp.hour, 2, '0') + ':' + _.padLeft(tp.minute, 2, '0') + ':00'
+          };
+          this._client.timePicked(data);
+        }
+      }
+
+    });
+  </script>
+
+</dom-module>
