@@ -40,26 +40,28 @@ A modal dialog that displays a time-picker when another element fires an event, 
 
       properties: {
 
+        id: {
+          type: String,
+          readOnly: true,
+          reflectToAttribute: true
+        },
+
         _client: Object
 
-      },
-
-      listeners: {
-        'll-time-picker-open': '_open'
       },
 
       _isValidClient: function(obj) {
         return _.isFunction(this._client.timePicked);
       },
 
-      _open: function (evt) {
-        this._client = evt.target;
+      open: function (client) {
+        this._client = client;
         if (this._hasValidClient()) {
           this.$.dialog.open();
         }
       },
 
-      _picked: function (evt) {
+      _picked: function () {
         if (this._hasValidClient()) {
           var tp = this.$.picker;
           var data = {
