@@ -1,0 +1,82 @@
+<!doctype html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <!-- Step 1: import the element to test -->
+  <link rel="import" href="../ll-time-picker.html">
+</head>
+<body>
+
+
+<script>
+
+  describe('ll-time-picker', function () {
+
+    var myEl = new LLTimePicker();
+
+    var validClient = {
+      timePicked: function () {
+      },
+      openPicker: function () {
+        myEl.open(this);
+      }
+    };
+
+    describe('when attached to DOM', function () {
+
+      it('should have a constant id', function () {
+        document.body.appendChild(myEl);
+        expect(document.getElementById('llTimePicker')).to.be.ok;
+      });
+
+    });
+
+    describe('when the time picker\'s "open" method is called by a valid "client" of the element', function () {
+
+      it('should open the time picker', function (done) {
+        document.body.addEventListener('iron-overlay-opened', function () {
+          done();
+        });
+        validClient.openPicker();
+      });
+
+    });
+
+    describe('when the time picker\'s "close" method is called', function () {
+
+      it('should close the time picker', function (done) {
+        document.body.addEventListener('iron-overlay-closed', function () {
+          done();
+        });
+        myEl.close();
+      });
+
+    });
+
+    describe('when user selects a time', function () {
+
+      it('should call the "timePicked" method of the "client" element that opened it, with an object containing the correct "display" and "iso" strings', function (done) {
+        validClient.timePicked = function (timeData) {
+          expect(timeData.display).to.eql('5:42 PM');
+          expect(timeData.iso).to.eql('17:42:00');
+          done();
+        };
+        myEl.$.picker.addEventListener('time-changed', function () {
+          myEl._picked();
+        });
+        myEl.$.picker.time = '5:42 PM';
+      });
+
+    });
+
+  });
+</script>
+
+</body>
+</html>
