@@ -1,0 +1,136 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer-paper-datepicker/paper-date-picker.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<!-- using shared styles in an element -->
+<link rel="import" href="../ll-theme/shared-styles.html">
+
+<script type="application/javascript" src="../lodash/lodash.js"></script>
+<script type="application/javascript" src="../moment/min/moment.min.js"></script>
+
+<!--
+Example:
+
+    <ll-date-picker></ll-date-picker>
+
+A modal dialog that displays a date-picker when called by another element, then calls a method in the other element with selected date data.
+@demo
+-->
+
+<dom-module id="ll-date-picker">
+
+  <style include="shared-styles"></style>
+
+  <template>
+
+    <paper-dialog id="dialog" class="paper-date-picker-dialog" modal>
+      <paper-date-picker id="picker"></paper-date-picker>
+      <div class="buttons">
+        <paper-button dialog-dismiss>CANCEL</paper-button>
+        <paper-button dialog-confirm on-tap="_picked">OK</paper-button>
+      </div>
+    </paper-dialog>
+
+  </template>
+
+  <script>
+
+    LLDatePicker = Polymer({
+
+      is: 'll-date-picker',
+
+      properties: {
+
+        id: {
+          type: String,
+          readOnly: true,
+          reflectToAttribute: true,
+          value: 'lLDatePicker'
+        },
+
+        /**
+         * Format for the display version of the date sent to the client.
+         */
+        _displayFormat: {
+          type: String,
+          value: 'M/DD/YY'
+        },
+
+        /**
+         * Format for the data version of the date sent to the client.
+         */
+        _dataFormat: {
+          type: String,
+          value: 'YYYY-MM-DD'
+        },
+
+        /**
+         * Array of string formats to try when using moment to set the date-picker's date from a string.
+         */
+        _dateSetterFormats: {
+          type: Array,
+          computed: '_computeDateSetterFormats(_displayFormat,_dataFormat)'
+        },
+
+        _client: Object
+
+      },
+
+      _hasValidClient: function () {
+        return _.isObject(this._client) && _.isFunction(this._client.datePicked);
+      },
+
+      /**
+       * Opens modal dialog containing date picker.
+       *
+       * @param client {object} The Polymer element instance that called this method.
+       * @param dataDate {string} Optional date to set picker to before displaying. Should be parseable by the picker.
+       * @param displayFormat {string} Optional display format to send back to client.
+       * @param dataFormat {string} Optional data format picker to send back to client.
+       */
+      open: function (client, dataDate, displayFormat, dataFormat) {
+        this._client = client;
+        if (this._hasValidClient()) {
+          if (displayFormat) this._displayFormat = displayFormat;
+          if (dataFormat) this._dataFormat = dataFormat;
+          if (!_.isEmpty(dataDate)) {
+            var m = moment(dataDate, this._dateSetterFormats);
+            if(m.isValid()) {
+              this.$.picker.date = m.toDate();
+            }
+          }
+          this.$.dialog.open();
+        }
+      },
+
+      /**
+       * Closes modal dialog containing date picker.
+       */
+      close: function () {
+        this.$.dialog.close();
+      },
+
+      /**
+       * Called by the date picker when user clicks confirmation button.
+       * @private
+       */
+      _picked: function () {
+        if (this._hasValidClient()) {
+          var tp = this.$.picker;
+          var data = {
+            display: tp.dateFormat(tp.date, this._displayFormat),
+            data: tp.dateFormat(tp.date, this._dataFormat)
+          };
+          this._client.datePicked(data);
+        }
+      },
+
+      _computeDateSetterFormats: function(displayFormat, dataFormat) {
+        return _.uniq(['YYYY-MM-DD', 'M/DD/YY', displayFormat, dataFormat]);
+      }
+
+    });
+  </script>
+
+</dom-module>
