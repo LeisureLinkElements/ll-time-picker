@@ -13,14 +13,16 @@
 
 <button onClick="pickerUser.launchPicker();">Open Time Picker</button>
 
-<p>When time is set via picker...</p>
-<ul>
-  <li>the input's value is set to standard 12-hour AM/PM format; eg: "<span id="timeDisplay">6:30 PM</span>"</li>
-  <li>the data-iso attribute is set to the ISO format; eg: "<span id="isoDisplay">18:30:00</span>"</li>
-  <li>the data-iso attribute is two-way bound, so you can bind it to a property of the Polymer element that contains this input; eg:<br><code>&lt;input is="ll-time-input" data-iso={{property.checkInTime}}/&gt</code>;</li>
-</ul>
-
-
+<p>When time is set via picker, the "timePicked" method of the object that opened the picker is called with an object like this:</p>
+<p><code>
+  {
+    display: "<span id="timeDisplay">6:30 PM</span>",
+    iso: "<span id="isoDisplay">18:30:00</span>"
+  }
+</code>
+  <br>
+  <br>
+Those values will change when you use the picker.</p>
 
 <script>
   var picker =  new LLTimePicker();
