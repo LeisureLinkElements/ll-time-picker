@@ -1,0 +1,115 @@
+<!doctype html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <!-- Step 1: import the element to test -->
+  <link rel="import" href="../ll-date-picker.html">
+</head>
+<body>
+
+
+<script>
+
+  describe('ll-date-picker', function () {
+
+    var myEl = new LLDatePicker();
+
+    var validClient = {
+      datePicked: function () {
+      },
+      openPicker: function (dataDate, displayFormat, dataFormat) {
+        myEl.open(this, dataDate, displayFormat, dataFormat);
+      }
+    };
+
+    var callPicked = function() {
+      myEl._picked();
+    };
+
+    describe('when attached to DOM', function () {
+
+      it('should have a constant id', function () {
+        document.body.appendChild(myEl);
+        expect(document.getElementById('llDatePicker')).to.be.ok;
+      });
+
+    });
+
+    describe('when the date picker\'s "open" method is called by a valid "client" of the element', function () {
+
+      it('should open the date picker', function (done) {
+        document.body.addEventListener('iron-overlay-opened', function () {
+          done();
+        });
+        validClient.openPicker();
+      });
+
+    });
+
+    describe('when the date picker\'s "close" method is called', function () {
+
+      it('should close the date picker', function (done) {
+        document.body.addEventListener('iron-overlay-closed', function () {
+          done();
+        });
+        myEl.close();
+      });
+
+    });
+
+    describe('when user selects a date', function () {
+
+      it('should call the "datePicked" method of the "client" element that opened it, with an object containing the correct "display" and "data" strings', function (done) {
+        validClient.datePicked = function (dateData) {
+          expect(dateData.display).to.eql('9/12/16');
+          expect(dateData.data).to.eql('2016-09-12');
+          myEl.$.picker.removeEventListener('date-changed', callPicked);
+          done();
+        };
+        myEl.$.picker.addEventListener('date-changed', callPicked);
+        validClient.openPicker('2016-09-12');
+      });
+
+    });
+
+    describe('when user specifies a date display format to receive', function () {
+
+      it('should call the "datePicked" method of the "client" element that opened it, with an object containing the correct "display" and "data" strings', function (done) {
+        validClient.datePicked = function (dateData) {
+          expect(dateData.display).to.eql('Friday, November 27th 2015');
+          expect(dateData.data).to.eql('2015-11-27');
+          myEl.$.picker.removeEventListener('date-changed', callPicked);
+          done();
+        };
+        myEl.$.picker.addEventListener('date-changed', callPicked);
+        validClient.openPicker('2015-11-27', 'dddd, MMMM Do YYYY');
+      });
+
+    });
+
+    describe('when user specifies a data display format to receive', function () {
+
+      it('should call the "datePicked" method of the "client" element that opened it, with an object containing the correct "display" and "data" strings', function (done) {
+        validClient.datePicked = function (dateData) {
+          expect(dateData.display).to.eql('11/27/15');
+          expect(dateData.data).to.eql('1448607600'); // UNIX timestamp
+          myEl.$.picker.removeEventListener('date-changed', callPicked);
+          done();
+        };
+        myEl.$.picker.addEventListener('date-changed', callPicked);
+        validClient.openPicker('2015-11-27', 'M/DD/YY', 'X');
+      });
+
+    });
+
+  });
+</script>
+
+</body>
+</html>
