@@ -54,9 +54,12 @@ A modal dialog that displays a time-picker when another element fires an event, 
         return _.isObject(this._client) && _.isFunction(this._client.timePicked);
       },
 
-      open: function (client) {
+      open: function (client, isoTime) {
         this._client = client;
         if (this._hasValidClient()) {
+          if (!_.isEmpty(isoTime)) {
+            this.$.picker.time = isoTime;
+          }
           this.$.dialog.open();
         }
       },
