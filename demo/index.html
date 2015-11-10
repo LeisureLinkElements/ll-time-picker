@@ -9,24 +9,35 @@
 </head>
 <body style="margin: 30px;">
 
-<script>
-  var picker = document.getElementById("timePicker");
-  function openPicker() {
-    picker.open();
-  }
-</script>
-
 <p>An example of <code>&lt;ll-time-picker&gt;</code></p>
 
-<button onClick="openPicker()">Open Time Picker</button>
-
-<ll-time-picker id="timePicker"/>
+<button onClick="pickerUser.launchPicker();">Open Time Picker</button>
 
 <p>When time is set via picker...</p>
 <ul>
-  <li>the input's value is set to standard 12-hour AM/PM format; eg: "6:30 PM"</li>
-  <li>the data-iso attribute is set to the ISO format; eg: "18:30:00"</li>
-  <li>the data-iso attribute is two-way bound, so you can bind it to a property of the Polymer element that contains this input; eg:<br><code>&lt;input is="ll-time-input" data-iso={{property.checkInTime}}/&gt</code>;
-  </li></ul>
+  <li>the input's value is set to standard 12-hour AM/PM format; eg: "<span id="timeDisplay">6:30 PM</span>"</li>
+  <li>the data-iso attribute is set to the ISO format; eg: "<span id="isoDisplay">18:30:00</span>"</li>
+  <li>the data-iso attribute is two-way bound, so you can bind it to a property of the Polymer element that contains this input; eg:<br><code>&lt;input is="ll-time-input" data-iso={{property.checkInTime}}/&gt</code>;</li>
+</ul>
+
+
+
+<script>
+  var picker =  new LLTimePicker();
+  var isoSpan = document.getElementById("isoDisplay");
+  var timeSpan = document.getElementById("timeDisplay");
+  var pickerUser = {
+    timePicked: function (data) {
+      isoSpan.innerHTML = data.iso;
+      timeSpan.innerHTML = data.display;
+    },
+    launchPicker: function() {
+      picker.open(this);
+    }
+  };
+  document.body.appendChild(picker);
+</script>
+
+
 </body>
 </html>
