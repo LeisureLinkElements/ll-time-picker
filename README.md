@@ -1,6 +1,6 @@
 # ll-property-information
 
-A modal dialog that displays a time-picker when another element fires an event, and then calls a method in that other element with selected time data.
+A modal dialog that displays a time-picker when called by another element, then calls a method in the other element with selected time data.
 
 ## Dependencies
 

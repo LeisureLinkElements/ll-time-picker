@@ -12,7 +12,7 @@ Example:
 
     <ll-time-picker></ll-time-picker>
 
-A modal dialog that displays a time-picker when another element fires an event, and then calls a method in that other element with selected time data.
+A modal dialog that displays a time-picker when called by another element, then calls a method in the other element with selected time data.
 @demo
 -->
 
@@ -54,6 +54,12 @@ A modal dialog that displays a time-picker when another element fires an event, 
         return _.isObject(this._client) && _.isFunction(this._client.timePicked);
       },
 
+      /**
+       * Opens modal dialog containing time picker.
+       *
+       * @param client {object} The Polymer element instance that called this method.
+       * @param isoTime {string} Optional iso time to set picker to before displaying.
+       */
       open: function (client, isoTime) {
         this._client = client;
         if (this._hasValidClient()) {
@@ -64,6 +70,10 @@ A modal dialog that displays a time-picker when another element fires an event, 
         }
       },
 
+      /**
+       * Called by the time picker when user clicks confirmation button.
+       * @private
+       */
       _picked: function () {
         if (this._hasValidClient()) {
           var tp = this.$.picker;
