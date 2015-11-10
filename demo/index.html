@@ -5,19 +5,23 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>ll-property-information Demo</title>
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="../ll-time-picker.html">
+  <link rel="import" href="../ll-date-picker.html">
 </head>
 <body style="margin: 30px;">
 
-<p>An example of <code>&lt;ll-time-picker&gt;</code></p>
+<p>An example of <code>&lt;ll-date-picker&gt;</code></p>
 
-<button onClick="pickerUser.launchPicker();">Open Time Picker</button>
+<button onClick="pickerUser.launchPicker();">Open Date Picker</button>
 
-<p>When time is set via picker, the "timePicked" method of the object that opened the picker is called with an object like this:</p>
+<button onClick="pickerUser.launchPicker('2016-12-25');">Open on 12/25/2016</button>
+
+<button onClick="pickerUser.launchPicker(null,'dddd, MMMM Do YYYY');">Open and receive different display format "dddd, MMMM Do YYYY" back.</button>
+
+<p>When date is set via picker, the "datePicked" method of the object that opened the picker is called with an object like this:</p>
 <p><code>
   {
-    display: "<span id="timeDisplay">6:30 PM</span>",
-    iso: "<span id="isoDisplay">18:30:00</span>"
+    display: "<span id="dateDisplay">7/20/16</span>",
+    data: "<span id="dataDisplay">2016-07-20</span>"
   }
 </code>
   <br>
@@ -25,16 +29,16 @@
 Those values will change when you use the picker.</p>
 
 <script>
-  var picker =  new LLTimePicker();
-  var isoSpan = document.getElementById("isoDisplay");
-  var timeSpan = document.getElementById("timeDisplay");
+  var picker =  new LLDatePicker();
+  var isoSpan = document.getElementById("dataDisplay");
+  var dateSpan = document.getElementById("dateDisplay");
   var pickerUser = {
-    timePicked: function (data) {
-      isoSpan.innerHTML = data.iso;
-      timeSpan.innerHTML = data.display;
+    datePicked: function (data) {
+      isoSpan.innerHTML = data.data;
+      dateSpan.innerHTML = data.display;
     },
-    launchPicker: function() {
-      picker.open(this);
+    launchPicker: function(newDate, displayFormat, dataFormat) {
+      picker.open(this, newDate, displayFormat, dataFormat);
     }
   };
   document.body.appendChild(picker);
