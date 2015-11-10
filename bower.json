@@ -1,17 +1,17 @@
 {
-  "name": "ll-time-picker",
+  "name": "ll-date-picker",
   "version": "1.0.0",
   "authors": [
     "Charles Koehl <ckoehl@leisurelink.com>"
   ],
-  "description": "A modal dialog that displays a time-picker when called by another element, then calls a method in the other element with selected time data.",
+  "description": "A modal dialog that displays a date-picker when called by another element, then calls a method in the other element with selected date data.",
   "keywords": [
-    "time",
+    "date",
     "leisurelink"
   ],
-  "main": "ll-time-picker.html",
+  "main": "ll-date-picker.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/LeisureLinkElements/ll-time-picker",
+  "homepage": "https://github.com/LeisureLinkElements/ll-date-picker",
   "ignore": [
     "/.*",
     "/test/",
