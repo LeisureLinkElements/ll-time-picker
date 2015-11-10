@@ -20,9 +20,10 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
     "ll-theme": "LeisureLinkElements/ll-theme",
-    "lodash": "~3.10.1",
     "paper-dialog": "PolymerElements/paper-dialog#~1.0.2",
-    "paper-time-picker": "master"
+    "polymer-paper-datepicker": "master",
+    "lodash": "~3.10.1",
+    "moment": "~2.8.3"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
