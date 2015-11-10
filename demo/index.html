@@ -30,11 +30,11 @@ Those values will change when you use the picker.</p>
 
 <script>
   var picker =  new LLDatePicker();
-  var isoSpan = document.getElementById("dataDisplay");
+  var dataSpan = document.getElementById("dataDisplay");
   var dateSpan = document.getElementById("dateDisplay");
   var pickerUser = {
     datePicked: function (data) {
-      isoSpan.innerHTML = data.data;
+      dataSpan.innerHTML = data.data;
       dateSpan.innerHTML = data.display;
     },
     launchPicker: function(newDate, displayFormat, dataFormat) {
