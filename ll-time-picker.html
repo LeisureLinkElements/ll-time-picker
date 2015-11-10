@@ -73,6 +73,13 @@ A modal dialog that displays a time-picker when called by another element, then 
       },
 
       /**
+       * Closes modal dialog containing time picker.
+       */
+      close: function () {
+        this.$.dialog.close();
+      },
+
+      /**
        * Called by the time picker when user clicks confirmation button.
        * @private
        */
